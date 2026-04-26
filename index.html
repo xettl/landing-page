@@ -332,6 +332,55 @@
     }
     .perks li svg { flex-shrink: 0; }
 
+
+    /* ── Fillout modal ── */
+    #fillout-modal {
+      display: none;
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(4,2,14,0.75);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      align-items: center; justify-content: center;
+      padding: 16px;
+    }
+    #fillout-modal.open { display: flex; }
+    .modal-box {
+      position: relative;
+      width: min(640px, 100%);
+      height: min(780px, 90vh);
+      background: #0d0a1e;
+      border-radius: 20px;
+      border: 1px solid rgba(139,92,246,0.25);
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+      animation: modalIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.94) translateY(12px); }
+      to   { opacity: 1; transform: scale(1)    translateY(0); }
+    }
+    .modal-close {
+      position: absolute; top: 14px; right: 16px; z-index: 10;
+      background: rgba(255,255,255,0.08); border: none;
+      color: var(--muted); font-size: 16px; line-height: 1;
+      width: 30px; height: 30px; border-radius: 50%;
+      cursor: pointer; transition: background 0.15s, color 0.15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.15); color: var(--text); }
+    #fillout-iframe { width: 100%; height: 100%; border: none; }
+    @media (max-width: 768px) {
+      #fillout-modal { padding: 0; align-items: flex-end; }
+      .modal-box {
+        width: 100%; height: 90vh;
+        border-radius: 20px 20px 0 0;
+        animation: modalInMobile 0.3s cubic-bezier(0.34,1.2,0.64,1);
+      }
+      @keyframes modalInMobile {
+        from { opacity: 0; transform: translateY(40px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+    }
   </style>
 </head>
 <body>
@@ -390,17 +439,6 @@
 
 
     </div>
-
-    <!-- Fillout popup trigger — off-screen so Fillout initializes it, invisible to user -->
-    <div style="position:fixed;top:-9999px;left:-9999px;opacity:0;pointer-events:none;">
-      <div id="fillout-popup"
-           data-fillout-id="8BR4m6eYgEus"
-           data-fillout-embed-type="popup"
-           data-fillout-button-text="open"
-           data-fillout-popup-size="large"
-           data-fillout-inherit-parameters></div>
-    </div>
-    <script src="https://server.fillout.com/embed/v1/"></script>
 
     <!-- RIGHT: orbit canvas -->
     <div class="right">
@@ -693,12 +731,19 @@ try { localStorage.removeItem('xettl_email'); } catch(e){}
 function openFillout(e) {
   e.preventDefault();
   const email = document.getElementById('email').value;
-  const url = new URL(window.location.href);
-  url.searchParams.set('email', email);
-  history.replaceState(null, '', url);
-  const trigger = document.querySelector('#fillout-popup button, #fillout-popup a, #fillout-popup [role="button"]');
-  if (trigger) trigger.click();
+  document.getElementById('fillout-iframe').src =
+    'https://forms.fillout.com/t/8BR4m6eYgEus?email=' + encodeURIComponent(email);
+  document.getElementById('fillout-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
+function closeFillout() {
+  document.getElementById('fillout-modal').classList.remove('open');
+  document.getElementById('fillout-iframe').src = '';
+  document.body.style.overflow = '';
+}
+document.getElementById('fillout-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeFillout();
+});
 
 /* ───────── TWEAKS ───────── */
 window.addEventListener('message', e => {
@@ -725,5 +770,13 @@ function setAccent(v, btn) {
   document.documentElement.style.setProperty('--lo', v==='purple'?'#C084FC':v==='indigo'?'#A5B4FC':'#67E8F9');
 }
 </script>
+
+<!-- Fillout modal -->
+<div id="fillout-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeFillout()">&#x2715;</button>
+    <iframe id="fillout-iframe" src="" allow="payment"></iframe>
+  </div>
+</div>
 </body>
 </html>
