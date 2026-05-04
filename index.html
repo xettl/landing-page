@@ -3,24 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <title>Xettl — Bank before you board.</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:   #080616;
-      --text: #F0EEFF;
-      --muted:#CFC3E8;
-      --lo:   #C084FC;
-      --mid:  #9333EA;
-      --hi:   #6D28D9;
-      --border: rgba(139,92,246,0.2);
+      /* ── Brand tokens v2.0 — Royal Azure — dark mode ── */
+      --bg:               #070B1F;
+      --surface:          #0D1640;
+      --surface-elevated: #122050;
+      --surface-sunken:   #040810;
+
+      --text-primary:   #F7FDED;
+      --text-secondary: #C8D4F0;
+      --text-muted:     #9AAAD4;
+      --text-disabled:  #4A5A78;
+      --text-on-accent: #FFFFFF;
+
+      /* Royal Azure — PRIMARY CTA */
+      --azure-50:  #EEF1FC;
+      --azure-100: #D5DCF8;
+      --azure-200: #ABBAF1;
+      --azure-300: #7B95E8;
+      --azure-400: #5B7FE5;
+      --azure-500: #3454D1;
+      --azure-600: #2B46B8;
+      --azure-700: #2239A0;
+      --azure-800: #1A2D80;
+      --azure-900: #0F1D55;
+
+
+      --success:    #34D399;
+      --success-bg: rgba(52,211,153,0.10);
+      --warning:    #FBBF24;
+      --warning-bg: rgba(251,191,36,0.10);
+      --error:      #F87171;
+      --error-bg:   rgba(248,113,113,0.10);
+      --info:       #5B7FE5;
+      --info-bg:    rgba(52,84,209,0.10);
+
+      --border-subtle:  rgba(52,84,209,0.15);
+      --border-default: rgba(52,84,209,0.28);
+      --border-strong:  rgba(52,84,209,0.50);
+
+      --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', 'SF Mono', monospace;
+
+      --radius-sm:   6px;
+      --radius-md:   10px;
+      --radius-lg:   16px;
+      --radius-xl:   24px;
+      --radius-pill: 999px;
+
+      --shadow-sm:        0 1px 3px rgba(0,0,0,0.35);
+      --shadow-md:        0 4px 14px rgba(0,0,0,0.45);
+      --shadow-lg:        0 12px 40px rgba(0,0,0,0.55);
+      --shadow-glow-blue: 0 0 28px rgba(52,84,209,0.40);
+
+      /* Legacy aliases */
+      --text:        var(--text-primary);
+      --muted:       var(--text-muted);
+      --lo:          var(--azure-400);
+      --mid:         var(--azure-500);
+      --hi:          var(--azure-600);
+      --border:      var(--border-default);
+      --shadow-glow: var(--shadow-glow-blue);
     }
 
     html, body {
@@ -38,8 +89,8 @@
     .bg-glow {
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 60% 55% at 72% 50%, rgba(109,40,217,0.18) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 28% 50%, rgba(139,92,246,0.08) 0%, transparent 65%);
+        radial-gradient(ellipse 70% 55% at 85% 5%, rgba(52,84,209,0.20) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 55% at -5% 60%, rgba(52,84,209,0.12) 0%, transparent 65%);
     }
 
     .page {
@@ -53,19 +104,21 @@
     nav {
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 52px;
-      border-bottom: 1px solid rgba(139,92,246,0.12);
-      background: rgba(8,6,22,0.6);
+      border-bottom: 1px solid rgba(52,84,209,0.18);
+      background: rgba(7,11,31,0.82);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
     }
     .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-word { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: var(--text); }
+    .logo-word { font-size: 20px; font-weight: 800; letter-spacing: 0.04em; color: var(--text); }
     .nav-badge {
       padding: 5px 14px;
       border: 1px solid var(--border); border-radius: 100px;
       font-size: 11px; font-weight: 600; color: var(--muted);
       letter-spacing: 0.05em;
-      background: rgba(139,92,246,0.08);
+      color: var(--azure-300);
+      border-color: var(--border-default);
+      background: rgba(52,84,209,0.10);
     }
 
     /* ── Body: left + right ── */
@@ -79,7 +132,6 @@
     .left {
       display: flex; flex-direction: column; justify-content: center;
       padding: 0 56px 0 56px;
-      gap: 0;
       position: relative;
     }
     /* Subtle left-column bloom */
@@ -88,25 +140,9 @@
       position: absolute;
       top: 30%; left: -60px;
       width: 320px; height: 320px;
-      background: radial-gradient(circle, rgba(139,92,246,0.10) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(52,84,209,0.12) 0%, transparent 70%);
       pointer-events: none;
     }
-
-    .badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(139,92,246,0.12); border: 1px solid var(--border);
-      border-radius: 100px; padding: 5px 14px 5px 9px;
-      font-size: 10px; font-weight: 700; color: var(--lo);
-      letter-spacing: 0.07em; text-transform: uppercase;
-      width: fit-content; margin-bottom: 24px;
-      white-space: nowrap;
-    }
-    .badge-dot {
-      width: 6px; height: 6px; border-radius: 50%; background: var(--lo);
-      animation: blink 2.2s ease-in-out infinite;
-      box-shadow: 0 0 6px var(--lo);
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
     .headline {
       font-size: clamp(48px, 5vw, 72px);
@@ -114,7 +150,7 @@
       margin-bottom: 18px;
     }
     .headline .acc {
-      background: linear-gradient(135deg, var(--lo) 10%, var(--hi) 100%);
+      background: linear-gradient(135deg, var(--azure-400) 10%, var(--azure-700) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
@@ -150,23 +186,22 @@
     .waitlist input::placeholder { color: var(--muted); }
     .waitlist input:focus {
       border-color: var(--mid);
-      box-shadow: 0 0 0 3px rgba(147,51,234,0.15);
+      box-shadow: 0 0 0 3px rgba(52,84,209,0.20);
     }
     .btn {
       width: 100%;
-      background: linear-gradient(135deg, var(--mid), var(--hi));
+      background: var(--azure-500);
       border: none; border-radius: 12px;
       padding: 14px 24px; font-size: 15px; font-weight: 700;
       color: #fff; font-family: inherit; cursor: pointer;
       white-space: nowrap; transition: opacity 0.18s, transform 0.15s, box-shadow 0.18s;
-      box-shadow: 0 4px 24px rgba(109,40,217,0.45);
+      box-shadow: var(--shadow-glow);
     }
     .btn:hover {
       opacity: 0.92; transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(109,40,217,0.6);
+      box-shadow: 0 8px 36px rgba(52,84,209,0.55);
     }
     .btn:active { transform: translateY(0); }
-    .btn.done { background: linear-gradient(135deg,#22c55e,#15803d); box-shadow: 0 4px 24px rgba(34,197,94,0.35); }
 
     /* Social proof */
     .social-proof {
@@ -187,14 +222,14 @@
     .social-proof-text {
       font-size: 12px; color: var(--muted);
     }
-    .social-proof-text strong { color: var(--lo); font-weight: 600; }
+    .social-proof-text strong { color: var(--azure-400); font-weight: 600; }
 
     /* ── Features footer strip ── */
     .features {
       padding: 20px 52px 24px;
       display: flex; justify-content: center; gap: 40px;
-      border-top: 1px solid rgba(139,92,246,0.10);
-      background: rgba(139,92,246,0.04);
+      border-top: 1px solid rgba(52,84,209,0.12);
+      background: rgba(52,84,209,0.04);
     }
     .feat {
       display: flex; align-items: center; gap: 12px;
@@ -202,46 +237,12 @@
     }
     .feat-dot {
       width: 32px; height: 32px; border-radius: 10px; flex-shrink: 0;
-      background: rgba(139,92,246,0.14);
-      border: 1px solid rgba(139,92,246,0.2);
+      background: rgba(52,84,209,0.14);
+      border: 1px solid rgba(52,84,209,0.25);
       display: flex; align-items: center; justify-content: center;
     }
     .feat-dot svg { width: 15px; height: 15px; }
     .feat strong { color: var(--text); font-weight: 600; margin-right: 3px; }
-
-    /* Toast */
-    .toast {
-      position: fixed; bottom: 24px; left: 50%;
-      transform: translateX(-50%) translateY(70px);
-      background: #0f172a; border: 1px solid rgba(34,197,94,0.3);
-      border-radius: 12px; padding: 12px 18px;
-      font-size: 13px; font-weight: 600; color: #86efac;
-      display: flex; align-items: center; gap: 8px;
-      z-index: 100; transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
-    }
-    .toast.show { transform: translateX(-50%) translateY(0); }
-
-    /* Tweaks */
-    .tweaks {
-      position: fixed; bottom: 24px; right: 24px;
-      width: 220px; background: #120d28;
-      border: 1px solid var(--border); border-radius: 16px;
-      padding: 16px; display: none; flex-direction: column; gap: 12px;
-      z-index: 200; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-    }
-    .tweaks.on { display: flex; }
-    .tw-h { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
-    .tw-x { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 17px; }
-    .tw-row { display: flex; flex-direction: column; gap: 5px; }
-    .tw-l { font-size: 11px; color: var(--muted); font-weight: 600; }
-    .tw-opts { display: flex; gap: 5px; flex-wrap: wrap; }
-    .tw-btn {
-      background: rgba(139,92,246,0.08); border: 1px solid var(--border);
-      border-radius: 7px; padding: 4px 10px;
-      font-size: 11px; color: var(--muted); font-family: inherit; cursor: pointer;
-      transition: all 0.15s;
-    }
-    .tw-btn:hover, .tw-btn.on { background: rgba(139,92,246,0.25); border-color: var(--mid); color: var(--text); }
 
     @media (max-width: 768px) {
       html, body { overflow-x: hidden; overflow-y: auto; height: auto; }
@@ -257,8 +258,8 @@
 
       .bg-glow {
         background:
-          radial-gradient(ellipse 80% 40% at 50% 20%, rgba(109,40,217,0.20) 0%, transparent 70%),
-          radial-gradient(ellipse 60% 30% at 50% 80%, rgba(139,92,246,0.08) 0%, transparent 65%);
+          radial-gradient(ellipse 80% 40% at 50% 20%, rgba(52,84,209,0.18) 0%, transparent 70%),
+          radial-gradient(ellipse 60% 30% at 50% 80%, rgba(52,84,209,0.10) 0%, transparent 65%);
       }
 
       .body { grid-template-columns: 1fr; overflow: visible; }
@@ -311,13 +312,69 @@
       .feat {
         width: 100%;
         padding: 14px 20px;
-        border-bottom: 1px solid rgba(139,92,246,0.06);
+        border-bottom: 1px solid rgba(52,84,209,0.08);
       }
       .feat:last-child { border-bottom: none; }
     }
 
     @media (max-width: 390px) {
       .headline { font-size: clamp(30px, 8.5vw, 36px); letter-spacing: -1px; }
+    }
+
+    /* ── Phone landscape fix ── */
+    @media (orientation: landscape) and (max-height: 500px) {
+      html, body { overflow-x: hidden; overflow-y: auto; height: auto; }
+
+      .page {
+        height: auto;
+        min-height: 100dvh;
+        grid-template-rows: 50px 1fr auto;
+      }
+
+      nav { padding: 0 20px; height: 50px; }
+
+      /* Restore side-by-side layout */
+      .body {
+        grid-template-columns: 1fr 1fr;
+        overflow: visible;
+      }
+
+      .right {
+        order: 0;
+        height: auto;
+        min-height: 200px;
+        max-height: none;
+      }
+
+      .left {
+        padding: 16px 24px;
+        justify-content: center;
+        overflow: visible;
+      }
+      .left::before { display: none; }
+
+      .headline {
+        font-size: clamp(22px, 3.5vw, 32px);
+        letter-spacing: -1px;
+        margin-bottom: 8px;
+      }
+
+      .sub {
+        font-size: 13px;
+        margin-bottom: 10px;
+      }
+
+      .perks {
+        gap: 6px;
+        margin-bottom: 14px;
+      }
+      .perks li { font-size: 12px; }
+
+      .waitlist input { font-size: 16px; }
+      .social-proof { margin-top: 8px; }
+
+      /* Not enough room — hide features strip */
+      .features { display: none; }
     }
 
     /* ── Perks checklist ── */
@@ -332,53 +389,54 @@
     }
     .perks li svg { flex-shrink: 0; }
 
-
-    /* ── Fillout modal ── */
+    /* Fillout modal */
     #fillout-modal {
       display: none;
       position: fixed; inset: 0; z-index: 1000;
-      background: rgba(4,2,14,0.75);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(8,11,32,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       align-items: center; justify-content: center;
-      padding: 16px;
+      padding: 20px;
+      flex-direction: column; gap: 12px;
     }
     #fillout-modal.open { display: flex; }
+    /* Close button sits above the modal box, always against the dark backdrop */
+    .modal-close {
+      align-self: flex-end;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff; font-size: 18px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.28); }
     .modal-box {
-      position: relative;
-      width: min(640px, 100%);
-      height: min(780px, 90vh);
-      background: #0d0a1e;
+      width: min(600px, 100%);
+      height: min(700px, 85vh);
       border-radius: 20px;
-      border: 1px solid rgba(139,92,246,0.25);
       overflow: hidden;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
-      animation: modalIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(139,92,246,0.25);
+      animation: modalIn 0.28s cubic-bezier(0.34,1.4,0.64,1);
     }
     @keyframes modalIn {
-      from { opacity: 0; transform: scale(0.94) translateY(12px); }
-      to   { opacity: 1; transform: scale(1)    translateY(0); }
+      from { opacity:0; transform: scale(0.93) translateY(16px); }
+      to   { opacity:1; transform: scale(1) translateY(0); }
     }
-    .modal-close {
-      position: absolute; top: 14px; right: 16px; z-index: 10;
-      background: rgba(255,255,255,0.08); border: none;
-      color: var(--muted); font-size: 16px; line-height: 1;
-      width: 30px; height: 30px; border-radius: 50%;
-      cursor: pointer; transition: background 0.15s, color 0.15s;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .modal-close:hover { background: rgba(255,255,255,0.15); color: var(--text); }
-    #fillout-iframe { width: 100%; height: 100%; border: none; }
+    #fillout-iframe { width: 100%; height: 100%; border: none; display: block; }
     @media (max-width: 768px) {
-      #fillout-modal { padding: 0; align-items: flex-end; }
+      #fillout-modal { padding: 12px 12px 0; align-items: stretch; gap: 8px; justify-content: flex-end; }
+      .modal-close { align-self: flex-end; width: 34px; height: 34px; font-size: 16px; }
       .modal-box {
-        width: 100%; height: 90vh;
+        width: 100%; height: 88vh;
         border-radius: 20px 20px 0 0;
         animation: modalInMobile 0.3s cubic-bezier(0.34,1.2,0.64,1);
       }
       @keyframes modalInMobile {
-        from { opacity: 0; transform: translateY(40px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from { opacity:0; transform: translateY(32px); }
+        to   { opacity:1; transform: translateY(0); }
       }
     }
   </style>
@@ -409,15 +467,15 @@
       <p class="sub">We&rsquo;re redefining banking for international students and we want you to help shape it.</p>
       <ul class="perks">
         <li>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="rgba(139,92,246,0.2)"/><path d="M4 7l2 2 4-4" stroke="#C084FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="rgba(52,84,209,0.18)"/><path d="M4 7l2 2 4-4" stroke="#5B7FE5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           No Social Security Number.
         </li>
         <li>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="rgba(139,92,246,0.2)"/><path d="M4 7l2 2 4-4" stroke="#C084FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="rgba(52,84,209,0.18)"/><path d="M4 7l2 2 4-4" stroke="#5B7FE5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           No branch visit.
         </li>
         <li>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="rgba(139,92,246,0.2)"/><path d="M4 7l2 2 4-4" stroke="#C084FC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="7" fill="rgba(52,84,209,0.18)"/><path d="M4 7l2 2 4-4" stroke="#5B7FE5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           No waiting.
         </li>
       </ul>
@@ -437,7 +495,6 @@
         <div class="social-proof-text">Be among the <strong>first to get access</strong></div>
       </div>
 
-
     </div>
 
     <!-- RIGHT: orbit canvas -->
@@ -450,19 +507,19 @@
   <div class="features">
     <div class="feat">
       <div class="feat-dot">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#5B7FE5" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <div><strong>Open before you arrive</strong> from anywhere in the world</div>
     </div>
     <div class="feat">
       <div class="feat-dot">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#5B7FE5" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       </div>
       <div><strong>Build U.S. credit</strong> from day one, automatically</div>
     </div>
     <div class="feat">
       <div class="feat-dot">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#5B7FE5" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       </div>
       <div><strong>Low cost international transfers</strong> send money home for less</div>
     </div>
@@ -470,31 +527,6 @@
 
 </div>
 
-<div class="toast" id="toast">
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-6" stroke="#86efac" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  You're on the list! We'll be in touch.
-</div>
-
-<!-- Tweaks -->
-<div class="tweaks" id="tweaks">
-  <div class="tw-h">Tweaks <button class="tw-x" onclick="closeTweaks()">×</button></div>
-  <div class="tw-row">
-    <div class="tw-l">Orbit speed</div>
-    <div class="tw-opts">
-      <button class="tw-btn on" onclick="setSpeed(1,this)">Normal</button>
-      <button class="tw-btn" onclick="setSpeed(0.5,this)">Slow</button>
-      <button class="tw-btn" onclick="setSpeed(2,this)">Fast</button>
-    </div>
-  </div>
-  <div class="tw-row">
-    <div class="tw-l">Accent color</div>
-    <div class="tw-opts">
-      <button class="tw-btn on" onclick="setAccent('purple',this)">Purple</button>
-      <button class="tw-btn" onclick="setAccent('indigo',this)">Indigo</button>
-      <button class="tw-btn" onclick="setAccent('cyan',this)">Cyan</button>
-    </div>
-  </div>
-</div>
 
 <script>
 /* ───────── STARFIELD ───────── */
@@ -508,7 +540,7 @@
     const r = Math.random() * 1.2;
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(200,180,255,${Math.random() * 0.35 + 0.05})`;
+    ctx.fillStyle = `rgba(180,200,255,${Math.random() * 0.30 + 0.05})`;
     ctx.fill();
   }
 })();
@@ -518,7 +550,7 @@ const canvas = document.getElementById('orbitCanvas');
 const ctx    = canvas.getContext('2d');
 let W = 0, H = 0, cx = 0, cy = 0;
 let speedMult = 1;
-let accentHex = '#9333EA';
+let accentHex = '#3454D1';
 let t = 0;
 
 const DPR = window.devicePixelRatio || 1;
@@ -724,9 +756,6 @@ function animate(ts) {
 }
 requestAnimationFrame(animate);
 
-/* Clear any stale state from previous sessions */
-try { localStorage.removeItem('xettl_email'); } catch(e){}
-
 /* ───────── WAITLIST ───────── */
 function openFillout(e) {
   e.preventDefault();
@@ -744,39 +773,14 @@ function closeFillout() {
 document.getElementById('fillout-modal').addEventListener('click', function(e) {
   if (e.target === this) closeFillout();
 });
-
-/* ───────── TWEAKS ───────── */
-window.addEventListener('message', e => {
-  if (e.data?.type === '__activate_edit_mode')   document.getElementById('tweaks').classList.add('on');
-  if (e.data?.type === '__deactivate_edit_mode') document.getElementById('tweaks').classList.remove('on');
-});
-window.parent.postMessage({ type: '__edit_mode_available' }, '*');
-
-function closeTweaks() {
-  document.getElementById('tweaks').classList.remove('on');
-  window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
-}
-
-function setActive(btn) {
-  btn.parentElement.querySelectorAll('.tw-btn').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-}
-function setSpeed(v, btn) { setActive(btn); speedMult = v; }
-function setAccent(v, btn) {
-  setActive(btn);
-  const map = { purple:'#9333EA', indigo:'#6366F1', cyan:'#06B6D4' };
-  accentHex = map[v];
-  document.documentElement.style.setProperty('--mid', accentHex);
-  document.documentElement.style.setProperty('--lo', v==='purple'?'#C084FC':v==='indigo'?'#A5B4FC':'#67E8F9');
-}
 </script>
 
-<!-- Fillout modal -->
 <div id="fillout-modal">
+  <button class="modal-close" onclick="closeFillout()">&#x2715;</button>
   <div class="modal-box">
-    <button class="modal-close" onclick="closeFillout()">&#x2715;</button>
-    <iframe id="fillout-iframe" src="" allow="payment"></iframe>
+    <iframe id="fillout-iframe" src="" allow="payment" allowfullscreen></iframe>
   </div>
 </div>
+
 </body>
 </html>
